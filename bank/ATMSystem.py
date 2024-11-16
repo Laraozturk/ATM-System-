@@ -5,18 +5,18 @@ class UserAccount:
         self.balance = balance
 
     def check_balance(self):
-        """Hesap bakiyesini döndürür."""
+        """Returns account balance."""
         return self.balance
 
     def withdraw(self, amount):
-        """Belirtilen tutarı hesaptan çeker."""
+        """Deduct the specified amount from the account."""
         if amount > self.balance:
             return False, "Insufficient Balance"
         self.balance -= amount
         return True, "Transaction Successful"
 
     def deposit(self, amount):
-        """Belirtilen tutarı hesaba ekler."""
+        """Adds the specified amount to the account."""
         self.balance += amount
         return True, "Deposit Successful"
 
@@ -28,28 +28,28 @@ class Transaction:
         self.amount = amount
 
     def process_transaction(self):
-        """İşlemi başlatır ve tamamlar."""
+        """Starts and completes the process."""
         print(f"Transaction {self.transaction_id}: {self.transaction_type} of {self.amount} processed.")
 
 
 class ATM:
     def __init__(self):
-        # ATM'deki hesaplar (önceden tanımlanmış örnek hesaplar)
+        # Accounts at ATM (predefined sample accounts)
         self.accounts = {
             "20211123": UserAccount("20211123", 1234, 1000),
             "654321": UserAccount("654321", 4321, 500)
         }
-        self.transactions = []  # İşlemleri tutan liste
+        self.transactions = []  # The list that holds the shlems
 
     def authenticate_user(self, account_number, pin):
-        """Kullanıcıyı doğrular."""
+        """Verifies the user."""
         account = self.accounts.get(account_number)
         if account and account.pin == pin:
             return account
         return None
 
     def withdraw_cash(self, user_account, amount):
-        """Para çekme işlemini başlatır ve işlemi kaydeder."""
+        """Starts the withdrawal process and records the transaction."""
         success, message = user_account.withdraw(amount)
         if success:
             transaction = Transaction(len(self.transactions) + 1, "Withdrawal", amount)
@@ -58,7 +58,7 @@ class ATM:
         return success, message
 
     def deposit_cash(self, user_account, amount):
-        """Para yatırma işlemi başlatır ve işlemi kaydeder."""
+        """Starts the deposit and records the transaction."""
         success, message = user_account.deposit(amount)
         if success:
             transaction = Transaction(len(self.transactions) + 1, "Deposit", amount)
@@ -67,5 +67,5 @@ class ATM:
         return success, message
 
     def check_balance(self, user_account):
-        """Kullanıcının bakiyesini döndürür."""
+        """Returns the user's balance."""
         return user_account.check_balance()
