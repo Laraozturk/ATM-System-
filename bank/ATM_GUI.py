@@ -1,16 +1,16 @@
 import tkinter as tk
 from tkinter import messagebox
-from ATMSystem import UserAccount, Transaction, ATM  # ATMSystem.py dosyasını içe aktarıyoruz
+from ATMSystem import UserAccount, Transaction, ATM  # We import the ATMSystem.py file
 
 class ATM_GUI:
     def __init__(self, root):
-        self.atm = ATM()  # ATM sınıfını başlatıyoruz
+        self.atm = ATM()  # We are starting the ATM class
         self.current_account = None
         self.root = root
-        self.start()  # Başlangıç fonksiyonunu çağırıyoruz
+        self.start()  # We call the start function
 
     def authenticate_user(self):
-        """Kullanıcıyı doğrular."""
+        """Verifies the user."""
         account_number = self.account_number_entry.get()
         pin = self.pin_entry.get()
         account = self.atm.authenticate_user(account_number, int(pin))
@@ -21,42 +21,42 @@ class ATM_GUI:
             messagebox.showerror("Error", "Invalid account number or PIN")
 
     def withdraw_cash(self):
-        """Para çekme işlemi başlatır ve işlemi kaydeder."""
+        """Starts the withdrawal transaction and saves the transaction."""
         try:
             amount = int(self.amount_entry.get())
             success, message = self.atm.withdraw_cash(self.current_account, amount)
             messagebox.showinfo("Transaction", message)
             if success:
-                self.show_balance()  # Bakiye güncellenip gösterilecek
-                self.show_menu()      # Ana menüyü tekrar göster
+                self.show_balance()  # The balance will be updated and shown
+                self.show_menu()      # Show the main menu again
             else:
-                self.show_balance()   # Yine bakiye göster, eğer işlem başarısızsa
+                self.show_balance()   # YShow ine balance, if the transaction fails
                 self.show_menu()
         except ValueError:
             messagebox.showerror("Error", "Please enter a valid amount.")
 
     def deposit_cash(self):
-        """Para yatırma işlemi başlatır ve işlemi kaydeder."""
+        """Starts the deposit and records the transaction."""
         try:
             amount = int(self.amount_entry.get())
             success, message = self.atm.deposit_cash(self.current_account, amount)
             messagebox.showinfo("Transaction", message)
             if success:
-                self.show_balance()  # Bakiye güncellenip gösterilecek
-                self.show_menu()      # Ana menüyü tekrar göster
+                self.show_balance()  # The balance will be updated and shown
+                self.show_menu()      # Show the main menu again
             else:
-                self.show_balance()   # Yine bakiye göster, eğer işlem başarısızsa
+                self.show_balance()   # Show balance again, if the transaction fails
                 self.show_menu()
         except ValueError:
             messagebox.showerror("Error", "Please enter a valid amount.")
 
     def show_balance(self):
-        """Hesap bakiyesini gösterir."""
+        """Shows account balance."""
         balance = self.atm.check_balance(self.current_account)
         messagebox.showinfo("Balance", f"Your balance is: {balance}")
 
     def show_menu(self):
-        """Ana menüyü gösterir."""
+        """AIt shows the menu."""
         self.clear_window()
         self.balance_button = tk.Button(self.root, text="Check Balance", command=self.show_balance)
         self.balance_button.pack(pady=10)
@@ -68,7 +68,7 @@ class ATM_GUI:
         self.deposit_button.pack(pady=10)
 
     def show_withdraw(self):
-        """Para çekme ekranını gösterir."""
+        """Shows withdrawal screen."""
         self.clear_window()
         self.amount_label = tk.Label(self.root, text="Enter the amount to withdraw:")
         self.amount_label.pack(pady=10)
@@ -80,7 +80,7 @@ class ATM_GUI:
         self.submit_button.pack(pady=10)
 
     def show_deposit(self):
-        """Para yatırma ekranını gösterir."""
+        """Shows the deposit screen."""
         self.clear_window()
         self.amount_label = tk.Label(self.root, text="Enter the amount to deposit:")
         self.amount_label.pack(pady=10)
@@ -92,19 +92,19 @@ class ATM_GUI:
         self.submit_button.pack(pady=10)
 
     def clear_window(self):
-        """Mevcut widget'ları temizler."""
+        """It cleans up existing widgets."""
         for widget in self.root.winfo_children():
             widget.destroy()
 
     def start(self):
-        """ATM'yi başlatan giriş ekranını gösterir."""
+        """Shows the login screen that started the ATM."""
         self.clear_window()
 
-        # "WELCOME TO ATM" mesajını ekleyelim
+        # "WELCOME TO ATM" Let's add the message
         welcome_label = tk.Label(self.root, text="WELCOME TO ATM", font=("Helvetica", 16))
         welcome_label.pack(pady=20)
 
-        # "PLEASE LOGIN" mesajını ekleyelim
+        # "PLEASE LOGIN" Let's add the message
         login_label = tk.Label(self.root, text="PLEASE LOGIN", font=("Helvetica", 14))
         login_label.pack(pady=10)
 
@@ -124,7 +124,7 @@ class ATM_GUI:
         self.login_button.pack(pady=20)
 
 
-# Ana pencereyi oluşturma
+# Creating the main window
 root = tk.Tk()
 root.title("ATM System")
 atm_gui = ATM_GUI(root)
